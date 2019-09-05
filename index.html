@@ -1,0 +1,105 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+	*{font-family: monospace;}
+
+	body{
+		background-color: #272727;
+	}
+
+	#geral{
+		width: 100%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	
+
+	.horizontal div{
+		display: inline-block;
+		width: 50;
+		height: 50;
+		background-color: #202020;
+		color: orange;
+		display: inline-flex;
+		float: left;
+		margin: 5;
+		justify-content: center;
+		align-items: center;
+	}
+
+	#info{
+		color: #ddd;
+		height: 100;
+		position: absolute;
+		color: #333;
+	}
+	#info:hover{color: white;}
+	
+
+	#tudo{transform: scale(3);}
+
+	.w300{width: 300}
+</style>
+
+<div id="info">
+	O objetivo jogo é deixar todos os quadrados com o número 4. <br><br> Ao clicar em um quadrado, ele passará o seu valor para os quadrados seguintes.
+</div>
+
+
+<div id="geral">
+	<div id="tudo">
+		<div class="horizontal w300" id="campo">
+			<div>8</div>
+			<div>8</div>
+			<div>8</div>
+			<div>8</div>
+			<div>8</div>
+			<div>0</div>
+			<div>0</div>
+			<div>0</div>
+			<div>0</div>
+			<div>0</div>
+		</div>
+	</div>
+
+</div>
+
+
+<script>
+
+
+	function add(div){
+		div.innerHTML = parseInt(div.innerHTML)+1
+	}
+
+	function vitoria(){
+		k = []
+		qnt = campo.childElementCount
+		for(i=0;i<qnt;i++){
+			k.push(parseInt(campo.children[i].innerHTML))
+		}	
+		return k.join("")
+	}
+
+	qquadrados = campo.childElementCount
+	for(i=0;i<qquadrados;i++){
+		campo.children[i].pos = i
+		campo.children[i].onclick=function(e){
+			
+			valor_dentro = parseInt(this.innerHTML)
+			posicao = this.pos
+			
+			this.innerHTML = 0
+
+			for(j=0;j<valor_dentro;j++){
+				add(campo.children[(j+posicao+1)%10])
+			}
+
+			if(vitoria() == "4444444444")
+				alert('Vitoria!!!')
+
+		}
+	}
+</script>
